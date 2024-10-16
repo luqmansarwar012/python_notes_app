@@ -1,24 +1,29 @@
 import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Database configuration
-engine = create_engine("postgresql://postgres:pg123@localhost/notes_app", echo=True)
+engine = create_engine(DATABASE_URL, echo=True)
 
 # Declarative Base
 Base = declarative_base()
 
-# Session factory
 SessionLocal = sessionmaker(bind=engine)
 
 
 # Create a session instance
 def get_db():
     db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    return db
+    # try:
+    #     return db
+    # finally:
+    #     db.close()
 
 
 # Logging configuration

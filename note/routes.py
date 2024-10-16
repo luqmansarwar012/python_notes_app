@@ -1,23 +1,19 @@
-from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, status
 from .schemas import NoteCreate, NoteResponse
-from database.service import get_db
 from .service import create_note_service, get_notes_service
 
 router = APIRouter()
 
 
-# Create note
-@router.post("/create", response_model=NoteResponse, status_code=status.HTTP_200_OK)
-def create_note(note: NoteCreate, db: Session = Depends(get_db)):
-    newNote = create_note_service(note, db)
-    return newNote
+@router.post("/", response_model=NoteResponse, status_code=status.HTTP_200_OK)
+def create_note(note: NoteCreate):
+    return create_note_service(note)
 
 
-# Get notes by user ID
 @router.get(
-    "/get/{user_id}", response_model=list[NoteResponse], status_code=status.HTTP_200_OK
+    "/{user_id}",
+    response_model=list[NoteResponse],
+    status_code=status.HTTP_200_OK,
 )
-def get_notes(user_id: int, db: Session = Depends(get_db)):
-    notes = get_notes_service(user_id, db)
-    return notes
+def get_notes_by_user_id(user_id: int):
+    return get_notes_service(user_id)
