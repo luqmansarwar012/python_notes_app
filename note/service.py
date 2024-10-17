@@ -2,7 +2,6 @@ from fastapi import status, HTTPException
 from .models import Note
 from .schemas import NoteCreate
 from user.models import User
-from helpers.id_generator import id_generator
 from database.service import get_db
 
 
@@ -15,7 +14,6 @@ def create_note_service(note: NoteCreate):
         )
 
     newNote = Note(
-        id=id_generator(),
         title=note.title,
         description=note.description,
         user_id=note.user_id,

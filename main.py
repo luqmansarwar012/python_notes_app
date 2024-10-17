@@ -3,7 +3,8 @@ from user import routes as user_routes
 from note import routes as note_routes
 from database.service import create_tables
 
-create_tables()
+if __name__ == "__main__":
+    create_tables()
 
 app = FastAPI()
 

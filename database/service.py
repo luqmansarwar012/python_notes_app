@@ -7,26 +7,18 @@ import os
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Database configuration
 engine = create_engine(DATABASE_URL, echo=True)
 
-# Declarative Base
 Base = declarative_base()
 
 SessionLocal = sessionmaker(bind=engine)
 
 
-# Create a session instance
 def get_db():
     db = SessionLocal()
     return db
-    # try:
-    #     return db
-    # finally:
-    #     db.close()
 
 
-# Logging configuration
 logging.basicConfig(level=logging.INFO)
 
 
