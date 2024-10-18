@@ -4,7 +4,6 @@ from pydantic import BaseModel
 class NoteCreate(BaseModel):
     title: str
     description: str
-    user_id: int
 
 
 class NoteResponse(BaseModel):

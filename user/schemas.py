@@ -11,13 +11,3 @@ class UserResponse(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-class Login(BaseModel):
-    username: str
-    password: str
-
-
-class LoginResponse(BaseModel):
-    success: bool
-    token: str

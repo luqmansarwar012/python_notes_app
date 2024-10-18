@@ -1,19 +1,24 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends
 from .schemas import NoteCreate, NoteResponse
-from .service import create_note_service, get_notes_service
+from auth.service import get_current_user
+from .service import get_notes_service, create_note_service
+from typing import Annotated
+from user.models import User
 
 router = APIRouter()
 
 
 @router.post("/", response_model=NoteResponse, status_code=status.HTTP_200_OK)
-def create_note(note: NoteCreate):
-    return create_note_service(note)
+def create_note(
+    note: NoteCreate, current_user: Annotated[User, Depends(get_current_user)]
+):
+    return create_note_service(note, current_user)
 
 
 @router.get(
-    "/{user_id}",
+    "/",
     response_model=list[NoteResponse],
     status_code=status.HTTP_200_OK,
 )
-def get_notes_by_user_id(user_id: int):
-    return get_notes_service(user_id)
+def get_notes_by_user_id(current_user: Annotated[User, Depends(get_current_user)]):
+    return get_notes_service(current_user)
